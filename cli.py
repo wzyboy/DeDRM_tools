@@ -23,6 +23,14 @@ from kfxlib import YJ_Book
 log = logging.getLogger()
 
 
+def is_kfx_file(path_to_ebook):
+
+    with open(path_to_ebook, "rb") as of:
+        data = of.read(16)
+
+    return (data.startswith(b"\xeaDRMION\xee") or data.startswith(b"CONT\x02\x00") or data.startswith(b"SQLite format 3\0"))
+
+
 def pack_enc_kfxzip(path_to_ebook, output_dir):
     '''Try to pack encrypted kfx and voucher into a single kfx-zip file'''
 
@@ -36,14 +44,6 @@ def pack_enc_kfxzip(path_to_ebook, output_dir):
     # Most of the code below are inspired from gather_filetype.py in
     # "KFX Input" plugin by John Howell
     # https://www.mobileread.com/forums/showthread.php?t=291290
-
-    # see if this is a KFX container
-    with open(path_to_ebook, "rb") as of:
-        data = of.read(16)
-
-    if not (data.startswith(b"\xeaDRMION\xee") or data.startswith(b"CONT\x02\x00") or data.startswith(b"SQLite format 3\0")):
-        print("KFX Input: File is not KFX format")
-        return path_to_ebook
 
     files = [path_to_ebook]
 
@@ -116,8 +116,7 @@ def main():
         raise SystemExit('At least one key is needed.')
 
     # Pre-process kfx files
-    kfx_exts = ('.azw', '.azw8', '.kfx', '.kfx-zip')
-    if args.input_file.endswith(kfx_exts):
+    if is_kfx_file(args.input_file):
         is_kfx = True
         input_file = pack_enc_kfxzip(args.input_file, args.output_dir)
     else:
@@ -134,6 +133,7 @@ def main():
 
     # Post-process kfx files
     if is_kfx:
+        # decrypted_file is a decrypted kfx-zip
         kfx_data = YJ_Book(decrypted_file, log).convert_to_single_kfx()
         kfx_fn = os.path.splitext(decrypted_file)[0] + '.kfx'
         with open(kfx_fn, 'wb') as kfx_fd:
