@@ -95,3 +95,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Books
+*.azw
+*.azw3
+*.azw8
+*.kfx
+*.kfx-zip
