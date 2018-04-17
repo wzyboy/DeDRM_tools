@@ -289,7 +289,7 @@ def decryptBook(infile, outdir, kDatabaseFiles, androidFiles, serials, pids):
 
     # remove internal temporary directory of Topaz pieces
     book.cleanup()
-    return 0
+    return outfile
 
 
 def usage(progname):
@@ -349,4 +349,4 @@ def cli_main():
 if __name__ == '__main__':
     sys.stdout=SafeUnbuffered(sys.stdout)
     sys.stderr=SafeUnbuffered(sys.stderr)
-    sys.exit(cli_main())
+    cli_main()
