@@ -2,9 +2,14 @@
 
 from __future__ import print_function
 
+import sys
+# An ugly hack. But it works.
+if sys.platform == 'win32':  # NOQA
+    reload(sys)  # NOQA
+    sys.setdefaultencoding('utf8')  # NOQA
+
 import os
 import re
-import sys
 import zipfile
 import logging
 import argparse
