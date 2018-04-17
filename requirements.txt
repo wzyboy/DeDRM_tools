@@ -1,0 +1,2 @@
+backports.lzma==0.0.10
+pycrypto==2.6.1
