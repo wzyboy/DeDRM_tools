@@ -268,7 +268,7 @@ def decryptBook(infile, outdir, kDatabaseFiles, androidFiles, serials, pids):
         outfilename = os.path.splitext(os.path.basename(infile))[0]
     else:
         #outfilename = cleanup_name(book.getBookTitle())
-        orig_basename = os.path.splitext(os.path.basename(infilename))[0]
+        orig_basename = os.path.splitext(os.path.basename(infile))[0]
         clean_title = cleanup_name(book.getBookTitle())
         outfilename = '{}_{}'.format(orig_basename, clean_title)
 
