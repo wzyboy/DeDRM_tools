@@ -20,6 +20,7 @@ from dedrm.k4mobidedrm import decryptBook
 from kfxlib import YJ_Book
 
 
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
 
@@ -36,7 +37,7 @@ def pack_enc_kfxzip(path_to_ebook, output_dir):
 
     # Be idempotent: if input file is already a kfx-zip, return as is.
     if path_to_ebook.endswith('.kfx-zip'):
-        print('Input is already a kfx-zip file, doing nothing.')
+        log.info('Input is already a kfx-zip file, doing nothing.')
         return path_to_ebook
 
     original_path_to_file = os.path.abspath(path_to_ebook)
@@ -88,7 +89,7 @@ def pack_enc_kfxzip(path_to_ebook, output_dir):
                     files.append(os.path.join(dirpath, fn))
 
     else:
-        print("KFX Input: Ignoring file not in a recognized directory structure")
+        log.info("KFX Input: Ignoring file not in a recognized directory structure")
         return path_to_ebook
 
     output_fn = '{}.kfx-zip'.format(orig_root)
@@ -98,7 +99,7 @@ def pack_enc_kfxzip(path_to_ebook, output_dir):
         for filepath in files:
             zf.write(filepath, os.path.basename(filepath))
 
-    print("KFX Input: Gathered %d files as %s" % (len(files), zfile))
+    log.info("KFX Input: Gathered %d files as %s" % (len(files), zfile))
     return zfile
 
 
