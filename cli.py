@@ -29,7 +29,12 @@ def is_kfx_file(path_to_ebook):
     with open(path_to_ebook, "rb") as of:
         data = of.read(16)
 
-    return (data.startswith(b"\xeaDRMION\xee") or data.startswith(b"CONT\x02\x00") or data.startswith(b"SQLite format 3\0"))
+    return data.startswith((
+        b"\xeaDRMION\xee",
+        b"CONT\x02\x00",
+        b"SQLite format 3\0",
+        b"PK\x03\x04",
+    ))
 
 
 def pack_enc_kfxzip(path_to_ebook, output_dir):
