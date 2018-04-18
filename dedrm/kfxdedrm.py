@@ -8,6 +8,7 @@ from __future__ import with_statement
 import os
 import shutil
 import zipfile
+import logging
 
 try:
     from cStringIO import StringIO
@@ -18,6 +19,15 @@ try:
     from calibre_plugins.dedrm import ion
 except ImportError:
     import ion
+
+try:
+    from kfxlib import YJ_Book
+except ImportError:
+    HAS_KFXLIB = False
+else:
+    HAS_KFXLIB = True
+
+log = logging.getLogger(__name__)
 
 
 __license__ = 'GPL v3'
@@ -87,7 +97,11 @@ class KFXZipBook:
         self.voucher = voucher
 
     def getBookTitle(self):
-        return os.path.splitext(os.path.split(self.infile)[1])[0]
+        if HAS_KFXLIB:
+            return YJ_Book(self.infile, log).get_metadata().title
+        else:
+            print('Warning: KFX book title cannot be determined')
+            return os.path.splitext(os.path.split(self.infile)[1])[0]
 
     def getBookExtension(self):
         return '.kfx-zip'
