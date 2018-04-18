@@ -106,10 +106,10 @@ def main():
     argp = argparse.ArgumentParser()
     argp.add_argument('input_file')
     argp.add_argument('output_dir')
-    argp.add_argument('-k', '--k4i', nargs=1, default=[])
-    argp.add_argument('-a', '--ab', nargs='+', default=[])
-    argp.add_argument('-s', '--serials', nargs='+', default=[])
-    argp.add_argument('-p', '--pids', nargs='+', default=[])
+    argp.add_argument('-k', '--k4i', action='append', default=[])
+    argp.add_argument('-a', '--ab', action='append', default=[])
+    argp.add_argument('-s', '--serials', action='append', default=[])
+    argp.add_argument('-p', '--pids', action='append', default=[])
     args = argp.parse_args()
 
     if not any((args.k4i, args.ab, args.serials, args.pids)):
